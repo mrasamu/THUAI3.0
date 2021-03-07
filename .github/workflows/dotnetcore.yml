@@ -67,7 +67,6 @@ jobs:
           docker cp compiler:/usr/local/protobuf .
           ls
           cd ..
-
       - name: Publish agent
         run: dotnet publish "communication/Agent/Communication.Agent.csproj" -c Release -r linux-x64 -f netcoreapp3.0 --self-contained true
       - name: Build docker image of agent

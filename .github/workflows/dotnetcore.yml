@@ -51,7 +51,7 @@ jobs:
         run: dotnet publish "logic/Logic.Server/Logic.Server.csproj" -c Release -r linux-x64 --self-contained true
       - name: Build docker image of server
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/thuai_server:latest -f logic/ServerDockerfile .
-      - name: Push server image to DockerHub
+      - name: Push server image  to DockerHub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/thuai_server:latest
 
       - name: Build CAPI_compile docker image

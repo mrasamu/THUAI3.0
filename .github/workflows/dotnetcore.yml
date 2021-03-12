@@ -7,36 +7,7 @@ on:
     - dev
 
 jobs:
-  build_upload:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 3.0.100
-      - name: Setup  Python
-        uses: actions/setup-python@v2
-        with:
-          python-version:: 3.7.4
-      - name: Pip install cos-python
-        run: pip install -U cos-python-sdk-v5
-      - name: Publish
-        run: |
-          ls
-          New-Item -Path . -Name "THUAI3.0" -ItemType "directory"
-          ls
-          cd ./logic
-          ls
-          ./build_logic.ps1 -Dir ../THUAI3.0
-          ls
-          cd ..
-          ls
-          (Get-Content "runServer.bat").replace("logic\Logic.Server\bin\Release\netcoreapp3.0","THUAI3.0") | Set-Content "runServer.bat"
-          (Get-Content "runServerToFile.bat").replace("logic\Logic.Server\bin\Release\netcoreapp3.0","THUAI3.0") | Set-Content "runServerToFile.bat"
-          (Get-Content "runAgent.bat").replace("communication\Agent\bin\Release\netcoreapp3.0","THUAI3.0") | Set-Content "runAgent.bat"
-          (Get-Content "runClientConsole.bat").replace("logic\Logic.Client\bin\Release\netcoreapp3.0","THUAI3.0") | Set-Content "runClientConsole.bat"
-          
+            
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -60,6 +31,7 @@ jobs:
         run: docker push ${{ secrets.DOCKER_USERNAME }}/thuai_compiler:latest
       - name: Get Protobuf and libprotos.so from Compiler
         run: |
+          ls
           mkdir temp
           cd temp
           docker run --name compiler ${{ secrets.DOCKER_USERNAME }}/thuai_compiler:latest bash /usr/local/CAPI/compile.sh
